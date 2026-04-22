@@ -1,0 +1,41 @@
+<div class="container">
+
+ <div class="header">
+  <button class="back-btn" routerLink="/dashboard">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6"
+        stroke="white"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<h1 class="page-title">Recurring Payments</h1>
+
+  <div class="summary-card">
+    <p>Total Monthly Recurring</p>
+    <h2>{{ totalMonthly | currency:'AUD' }}</h2>
+  </div>
+
+  <div class="table-container">
+    <div class="upcoming-card">
+  <h3>Upcoming Payments</h3>
+
+  <div *ngFor="let p of upcomingPayments" class="upcoming-item">
+    <div>
+      <strong>{{ p.name }}</strong>
+      <p>{{ p.amount | currency:'AUD' }}</p>
+    </div>
+
+    <div class="badge">
+      {{ p.daysLeft }} days
+    </div>
+  </div>
+</div>
+
+
+  </div>
+
+</div>

@@ -1,0 +1,100 @@
+<div class="container">
+
+  <!-- HEADER -->
+<div class="header">
+
+  <!-- BACK -->
+  <button class="back-btn" routerLink="/savings">
+    <svg width="20" height="20" viewBox="0 0 24 24">
+      <path d="M15 18L9 12L15 6"
+        stroke="white"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+</div>
+
+<!-- 🔥 MONTH + YEAR (NEW UI) -->
+<div class="date-display">
+
+  <div class="date-box">
+    {{ (selectedYear + '-' + (selectedMonth + 1) + '-01') | date:'MMMM' }}
+  </div>
+
+  <div class="date-box">
+    {{ selectedYear }}
+  </div>
+
+</div>
+
+  <!-- TOTAL SUMMARY -->
+  <div class="budget-summary">
+
+    <div class="summary-top">
+      <h3>Total Budget</h3>
+      <span>{{ getTotalBudget() | currency:'AUD' }}</span>
+    </div>
+
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="getTotalPercent()"
+        [ngClass]="{
+          'over': getTotalSpent() > getTotalBudget(),
+          'warning': getTotalSpent() > getTotalBudget() * 0.8
+        }"
+      ></div>
+    </div>
+
+    <div class="summary-meta">
+      <span>{{ getTotalSpent() | currency:'AUD' }}</span>
+      <span>/ {{ getTotalBudget() | currency:'AUD' }}</span>
+    </div>
+
+  </div>
+
+  <!-- CATEGORY BUDGETS -->
+  <div class="budget-grid">
+
+    
+
+    <div class="budget-card" *ngFor="let cat of getAllCategories()" class="budget-card">
+
+  <div class="budget-header">
+    <strong>{{ cat }}</strong>
+
+    <input
+      type="number"
+      [(ngModel)]="budgets[cat]"
+      placeholder="0"
+    />
+  </div>
+
+  <div class="progress-bar">
+    <div
+      class="progress-fill"
+      [style.width.%]="getBudgetPercent(cat, categoryTransactions[cat] || [])"
+    ></div>
+  </div>
+
+  <div class="budget-meta">
+    <span>{{ getCategoryTotal(categoryTransactions[cat] || []) | currency:'AUD' }}</span>
+    <span>/ {{ budgets[cat] || 0 | currency:'AUD' }}</span>
+  </div>
+
+</div>
+  </div>
+
+  <!-- EMPTY STATE (🔥 important UX fix) -->
+  <div *ngIf="!categoryTransactions || (categoryTransactions | keyvalue).length === 0" class="empty">
+    No spending data for this month
+  </div>
+
+  <!-- APPLY BUTTON -->
+  <button class="apply-btn" (click)="saveAllBudgets()">
+    Apply Budget
+  </button>
+
+</div>

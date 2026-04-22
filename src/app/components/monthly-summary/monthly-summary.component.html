@@ -1,0 +1,95 @@
+<div class="container">
+
+  <!-- HEADER (ONLY BACK BUTTON) -->
+  <div class="header">
+    <button class="back-btn" routerLink="/dashboard">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+  </div>
+
+  <!-- MONTH NAV -->
+  <div class="month-nav">
+
+    <button class="nav-btn" (click)="prevMonth()">◀</button>
+
+    <h2 class="month-label">
+      {{ formatMonth(getSelectedMonth()) }}
+    </h2>
+
+    <button class="nav-btn" (click)="nextMonth()">▶</button>
+
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+
+    <div class="stat-card income">
+      <p>Income</p>
+      <h3>{{ getCurrentMonthStats().income | currency:'AUD' }}</h3>
+    </div>
+
+    <div class="stat-card expense">
+      <p>Spent</p>
+      <h3>{{ getCurrentMonthStats().spent | currency:'AUD' }}</h3>
+    </div>
+
+    <div class="stat-card savings">
+      <p>Savings</p>
+      <h3>{{ getCurrentMonthStats().savings | currency:'AUD' }}</h3>
+    </div>
+
+  </div>
+
+  <!-- CHARTS -->
+  <div class="charts">
+
+    <div class="chart-box">
+      <h3>Category Breakdown</h3>
+      <canvas #categoryChart id="categoryChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Income vs Spending</h3>
+      <canvas #incomeChart id="incomeChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Savings Rate</h3>
+
+      <div class="savings-bar">
+  <div 
+    class="savings-fill"
+    [style.width.%]="getSavingsRate()">
+  </div>
+</div>
+
+      <p class="progress-text">
+        {{ getSavingsRate() | number:'1.0-0' }}%
+      </p>
+    </div>
+
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="table-container">
+
+    <h3>Transactions</h3>
+
+    <div *ngFor="let t of getCurrentMonthTransactions()" class="txn-row">
+
+      <div class="txn-left">
+        <strong>{{ t.description }}</strong>
+        <span>{{ t.location || 'NA' }}</span>
+      </div>
+
+      <div [ngClass]="t.amount > 0 ? 'pos' : 'neg'">
+        {{ t.amount | currency:'AUD' }}
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,121 @@
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="header-left">
+    <h1>Hi Abin</h1>
+    <h3>Welcome Back!</h3>
+  </div>
+
+      <!-- NEW TOP ACTION BUTTON -->
+  <button class="top-action-btn" (click)="toggleQuickActions(); $event.stopPropagation()">
+    +
+  </button>
+  </div>
+
+<div class="search-bar">
+  <div class="search-wrapper">
+
+    <input 
+      type="text"
+      placeholder="Search Transactions"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+    />
+
+    <!-- CLEAR BUTTON -->
+    <button 
+      *ngIf="searchTerm"
+      class="clear-btn"
+      (click)="clearSearch()">
+      ✕
+    </button>
+
+  </div>
+</div>
+
+  <!-- BALANCE (NO BOX) -->
+  <div class="balance-clean">
+    <p>Current Balance</p>
+    <h2 [ngClass]="getCurrentBalance() >= 0 ? 'pos' : 'neg'">
+      {{ getCurrentBalance() | currency:'AUD' }}
+    </h2>
+  </div>
+
+
+
+  <!-- HORIZONTAL CARDS -->
+  <div class="horizontal-cards">
+
+    <div class="h-card" routerLink="/monthly-summary">
+      <p>Current Spend</p>
+      <h3>{{ monthlySpent | currency:'AUD' }}</h3>
+    </div>
+
+    <div class="h-card" routerLink="/recurring-payments">
+      <p>Upcomming Payments</p>
+      <h3>{{ recurringTotal | currency:'AUD' }}</h3>
+    </div>
+
+    <div class="h-card" routerLink="/savings">
+      <p>Monthly Savings</p>
+      <h3>{{ savingsPreview | currency:'AUD' }}</h3>
+    </div>
+
+  </div>
+
+    <!-- INCOME / SPENT -->
+<div class="new-tube">
+
+  <div class="tube-item">
+    <p class="tube-name">Income : {{ totalIncome | currency:'AUD' }}</p>
+  </div>
+
+
+  <div class="tube-item">
+    <p class="tube-name">Expense : {{ totalSpent | currency:'AUD' }}</p>
+  </div>
+
+</div>
+
+
+  <!-- TRANSACTIONS -->
+<div class="table-container">
+
+  <div *ngFor="let month of getSortedMonths()" class="month-group">
+
+    <h4 class="month-title">{{ formatMonth(month) }}</h4>
+
+    <div class="month-block">
+
+      <div *ngFor="let t of getFilteredGroupedTransactions()[month]" class="txn-row">
+
+        <div class="txn-left">
+          <strong>{{ t.description }}</strong>
+          <p>{{ t.location || 'NA' }}</p>
+        </div>
+
+        <div [ngClass]="t.amount > 0 ? 'pos' : 'neg'">
+          {{ t.amount | currency:'AUD' }}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- FLOAT BUTTON -->
+  <!-- <button class="fab" (click)="toggleQuickActions(); $event.stopPropagation()">+</button> -->
+  <!-- QUICK ACTIONS -->
+  <div class="quick-actions" *ngIf="showQuickActions" (click)="$event.stopPropagation()">
+    <button (click)="handleQuickAction('add')">Add Transaction</button>
+    <button (click)="handleQuickAction('upload')">Upload Statement</button>
+  </div>
+
+  <input #fileInput type="file" hidden (change)="onFileChange($event)" />
+
+</div>

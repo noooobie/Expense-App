@@ -1,0 +1,100 @@
+/* =========================
+   TITLE
+========================= */
+.dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16px;
+}
+
+/* =========================
+   FORM
+========================= */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ROW */
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* FLEX CONTROL */
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+
+/* =========================
+   INPUT
+========================= */
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+
+  background: #ffffff10;
+  color: white;
+
+  font-size: 14px;
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+/* placeholder */
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* focus */
+.input:focus {
+  background: #ffffff18;
+  border: 1px solid #2563eb;
+}
+
+/* =========================
+   DATE INPUT FIX
+========================= */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+/* BUTTON BASE */
+.btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* CANCEL */
+.cancel {
+  background: #ffffff14;
+  color: #e5e7eb;
+}
+
+/* SAVE */
+.save {
+  background: #2563eb;
+  color: white;
+}
+
+/* PRESS EFFECT */
+.btn:active {
+  transform: scale(0.96);
+}

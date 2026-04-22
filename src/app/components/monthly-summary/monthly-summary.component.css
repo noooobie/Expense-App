@@ -1,0 +1,233 @@
+/* =========================
+   BASE
+========================= */
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+  background: #000;
+  color: #e5e7eb;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* 🔥 CIRCLE BACK BUTTON */
+.back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  background: #1a1a1a;            /* stronger than transparent */
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 22px;               /* 🔥 bigger arrow */
+  font-weight: bold;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6); /* 🔥 depth */
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  background: #262626;
+}
+
+/* =========================
+   MONTH NAV (CENTERED CLEAN)
+========================= */
+.month-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 18px 0 20px;
+}
+
+/* arrows */
+.nav-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff12;
+  border: none;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔥 month text (NO BOX) */
+.month-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0 !important;
+}
+
+/* =========================
+   STATS
+========================= */
+.stats {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.stats::-webkit-scrollbar {
+  display: none;
+}
+
+.stat-card {
+  min-width: 120px;
+  background: #ffffff10;
+  border-radius: 16px;
+  padding: 14px;
+  flex: 0 0 auto;
+}
+
+.stat-card p {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.stat-card h3 {
+  font-size: 15px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.income h3 { color: #4ade80; }
+.expense h3 { color: #f87171; }
+.savings h3 { color: #60a5fa; }
+
+/* =========================
+   CHARTS
+========================= */
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.chart-box {
+  background: #ffffff10;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-box h3 {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+}
+
+.chart-box #categoryChart {
+  width: 80% !important;
+  height: 270px !important;
+}
+
+
+/* =========================
+   SAVINGS BAR
+========================= */
+/* =========================
+   SAVINGS BAR (HORIZONTAL)
+========================= */
+.savings-bar {
+  width: 100%;
+  height: 10px;
+  background: #657388a2;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+/* 🔥 APP MATCHED GRADIENT */
+.savings-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    #c8d4eb,   /* blue */
+    #88909a    /* light blue */
+  );
+
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #b5d5fd;
+}
+
+/* =========================
+   TRANSACTIONS
+========================= */
+.table-container {
+  margin-top: 10px;
+}
+
+.table-container h3 {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.txn-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #ffffff10;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.txn-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.txn-left strong {
+  font-size: 14px;
+  color: white;
+}
+
+.txn-left span {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.pos { color: #4ade80; }
+.neg { color: #f87171; }

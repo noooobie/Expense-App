@@ -1,1 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  background: #000 !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* DARK BACKDROP */
+.custom-dialog .mat-dialog-container {
+  background: #1c1c1c;
+  color: white;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+/* REMOVE WHITE DEFAULT */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background: #ffffff10 !important;
+  border-radius: 10px !important;
+}
+
+/* INPUT TEXT */
+.mat-input-element {
+  color: white !important;
+}
+
+/* LABEL */
+.mat-form-field-label {
+  color: #9ca3af !important;
+}
+
+/* REMOVE MATERIAL UNDERLINE */
+.mat-form-field-underline {
+  display: none;
+}
+
+/* FOCUS BORDER */
+.mat-form-field-appearance-fill.mat-focused .mat-form-field-flex {
+  border: 1px solid #2563eb;
+}
+
+.custom-dialog .mat-dialog-container {
+  background: #111;
+  border-radius: 16px;
+  color: white;
+}

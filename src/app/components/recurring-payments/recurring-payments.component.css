@@ -1,0 +1,142 @@
+/* =========================
+   BASE (DARK)
+========================= */
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+  background: #000;
+  color: #e5e7eb;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+/* =========================
+   SUMMARY (MATCH DASHBOARD CARDS)
+========================= */
+.summary-card {
+  background: #ffffff10;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.summary-card p {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.summary-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 6px;
+  color: #f87171; /* expense red */
+}
+
+/* =========================
+   UPCOMING CARD
+========================= */
+.table-container {
+  margin-top: 10px;
+}
+
+.upcoming-card {
+  background: #ffffff10;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+/* TITLE */
+.upcoming-card h3 {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+/* =========================
+   ITEM (MATCH TRANSACTIONS STYLE)
+========================= */
+.upcoming-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #1f2937;
+}
+
+.upcoming-item:last-child {
+  border-bottom: none;
+}
+
+/* LEFT */
+.upcoming-item strong {
+  font-size: 14px;
+  color: white;
+}
+
+.upcoming-item p {
+  font-size: 12px;
+  color: #f87171;
+  margin-top: 2px;
+}
+
+/* =========================
+   BADGE (MODERN PILL STYLE)
+========================= */
+.badge {
+  background: #ffffff14;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #e5e7eb;
+}
+
+/* URGENCY STATES */
+.badge.urgent {
+  background: rgba(248, 113, 113, 0.2);
+  color: #f87171;
+}
+
+.badge.warning {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+/* 🔥 CIRCLE BACK BUTTON */
+.back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  background: #1a1a1a;            /* stronger than transparent */
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+  font-size: 22px;               /* 🔥 bigger arrow */
+  font-weight: bold;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6); /* 🔥 depth */
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  background: #262626;
+}
