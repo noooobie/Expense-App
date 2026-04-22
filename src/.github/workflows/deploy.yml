@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build -- --configuration production --base-href="/expense-app/"
+        run: npm run build -- --configuration production --base-href="/Expense-App/"
 
       - name: Deploy
-        run: npx angular-cli-ghpages --dir=dist/expense-app
+        run: npx angular-cli-ghpages --dir=dist/Expense-App
