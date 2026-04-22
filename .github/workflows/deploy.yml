@@ -12,6 +12,7 @@ permissions:
 
 env:
   CI: false   # 🔥 prevents Angular CI build failures
+  NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
   build:
@@ -30,7 +31,7 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --configuration production --base-href="/Expense-App/" --build-optimizer=false
+        run: npm run build -- --configuration production --base-href="/Expense-App/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
