@@ -10,6 +10,9 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  CI: false   # 🔥 prevents Angular CI build failures
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,12 +30,12 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --configuration production --base-href="/Expense-App/"
+        run: npm run build -- --configuration production --base-href="/Expense-App/" --build-optimizer=false
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/ExpenseApp   # ⚠️ IMPORTANT (lowercase!)
+          path: dist/ExpenseApp   # ✅ matches your actual folder
 
   deploy:
     needs: build
