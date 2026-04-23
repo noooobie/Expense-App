@@ -83,17 +83,20 @@
   <!-- TRANSACTIONS -->
 <div class="table-container">
 
-  <div *ngFor="let month of getSortedMonths()" class="month-group">
+  <div *ngFor="let month of sortedMonths" class="month-group">
 
     <h4 class="month-title">{{ formatMonth(month) }}</h4>
 
     <div class="month-block">
 
-      <div *ngFor="let t of getFilteredGroupedTransactions()[month]" class="txn-row">
+      <div *ngFor="let t of groupedTransactions[month]" class="txn-row">
 
         <div class="txn-left">
           <strong>{{ t.description }}</strong>
-          <p>{{ t.location || 'NA' }}</p>
+          <p>
+            {{ t.location || 'NA' }} • 
+            {{ t.date | date:'dd MMM yyyy' }}
+          </p>
         </div>
 
         <div [ngClass]="t.amount > 0 ? 'pos' : 'neg'">

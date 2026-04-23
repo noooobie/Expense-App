@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import {Component,OnInit,AfterViewInit,ViewChild,ElementRef} from '@angular/core';
 import { AnalyticsService } from '../../services/analytics.service';
 import { SupabaseService } from '../../services/supabase.service';
 import { Transaction } from '../../models/transaction.model';

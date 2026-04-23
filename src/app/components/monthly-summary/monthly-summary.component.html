@@ -3,10 +3,10 @@
   <!-- HEADER (ONLY BACK BUTTON) -->
   <div class="header">
     <button class="back-btn" routerLink="/dashboard">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
   </div>
 
   <!-- MONTH NAV -->
@@ -59,15 +59,16 @@
       <h3>Savings Rate</h3>
 
       <div class="savings-bar">
-  <div 
-    class="savings-fill"
-    [style.width.%]="getSavingsRate()">
-  </div>
-</div>
+        <div 
+          class="savings-fill"
+          [style.width.%]="getSavingsRate()">
+        </div>
+      </div>
 
       <p class="progress-text">
         {{ getSavingsRate() | number:'1.0-0' }}%
       </p>
+
     </div>
 
   </div>
@@ -77,14 +78,26 @@
 
     <h3>Transactions</h3>
 
-    <div *ngFor="let t of getCurrentMonthTransactions()" class="txn-row">
+    <div 
+      *ngFor="let t of getCurrentMonthTransactions()" 
+      class="txn-row">
 
+      <!-- LEFT SIDE -->
       <div class="txn-left">
+
         <strong>{{ t.description }}</strong>
-        <span>{{ t.location || 'NA' }}</span>
+
+        <p class="txn-meta">
+          {{ t.location || 'NA' }} • 
+          {{ t.date | date:'dd MMM yyyy' }}
+        </p>
+
       </div>
 
-      <div [ngClass]="t.amount > 0 ? 'pos' : 'neg'">
+      <!-- RIGHT SIDE -->
+      <div 
+        class="txn-amount"
+        [ngClass]="t.amount > 0 ? 'pos' : 'neg'">
         {{ t.amount | currency:'AUD' }}
       </div>
 

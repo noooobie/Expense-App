@@ -16,12 +16,13 @@ export class DashboardComponent implements OnInit {
   transactions: any[] = [];
   filteredTransactions: any[] = [];
 
+  groupedTransactions: any = {};
+  sortedMonths: string[] = [];
+
   totalIncome = 0;
   totalSpent = 0;
 
-  sortDescending = true;
   showQuickActions = false;
-
   searchTerm: string = '';
 
   monthlySpent = 0;
@@ -44,52 +45,25 @@ export class DashboardComponent implements OnInit {
 
     this.transactions = await this.supabaseService.getTransactions();
 
+    // ✅ GLOBAL SORT (latest first)
+    this.transactions.sort((a, b) =>
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
     this.filteredTransactions = [...this.transactions];
 
-    // 🔥 stats use FULL data
+    this.processGrouping();
+
     this.totalIncome = this.analyticsService.getTotalIncome(this.transactions);
     this.totalSpent = this.analyticsService.getTotalSpent(this.transactions);
 
     this.calculatePreviewTiles();
   }
 
-  @HostListener('document:click', ['$event'])
-onClickOutside(event: Event) {
-
-  const target = event.target as HTMLElement;
-
-  // If click is NOT inside FAB or quick-actions → close
-  if (
-    !target.closest('.fab') &&
-    !target.closest('.quick-actions')
-  ) {
-    this.showQuickActions = false;
-  }
-}
-
   // =========================
-  // 🔍 SEARCH
+  // 🔥 GROUP + SORT LOGIC
   // =========================
-  onSearchChange() {
-
-    const term = this.searchTerm.toLowerCase().trim();
-
-    if (!term) {
-      this.filteredTransactions = [...this.transactions];
-      return;
-    }
-
-    this.filteredTransactions = this.transactions.filter(t =>
-      t.description?.toLowerCase().includes(term) ||
-      t.location?.toLowerCase().includes(term) ||
-      t.category?.toLowerCase().includes(term)
-    );
-  }
-
-  // =========================
-  // 🔥 GROUP FILTERED DATA
-  // =========================
-  getFilteredGroupedTransactions() {
+  processGrouping() {
 
     const grouped: any = {};
 
@@ -102,88 +76,107 @@ onClickOutside(event: Event) {
       grouped[key].push(t);
     });
 
-    return grouped;
+    // ✅ SORT inside each month
+    Object.keys(grouped).forEach(key => {
+      grouped[key].sort((a: any, b: any) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    });
+
+    // ✅ SORT months
+    this.sortedMonths = Object.keys(grouped).sort((a, b) => {
+
+      const [yA, mA] = a.split('-').map(Number);
+      const [yB, mB] = b.split('-').map(Number);
+
+      return new Date(yB, mB).getTime() - new Date(yA, mA).getTime();
+    });
+
+    this.groupedTransactions = grouped;
   }
 
-  getSortedMonths(): string[] {
 
-    const grouped = this.getFilteredGroupedTransactions();
-
-    return Object.keys(grouped)
-      .sort((a, b) => {
-
-        const [yA, mA] = a.split('-').map(Number);
-        const [yB, mB] = b.split('-').map(Number);
-
-        const diff =
-          new Date(yB, mB).getTime() -
-          new Date(yA, mA).getTime();
-
-        return this.sortDescending ? diff : -diff;
-      });
-  }
-
-  // =========================
-  // PREVIEW TILES (FULL DATA)
-  // =========================
+  ////Previrew tiles calculations
   calculatePreviewTiles() {
 
-    const now = new Date();
+  const now = new Date();
 
-    const currentMonthTransactions = this.transactions.filter(t => {
-      const d = new Date(t.date);
-      return (
-        d.getMonth() === now.getMonth() &&
-        d.getFullYear() === now.getFullYear()
-      );
-    });
+  const currentMonthTransactions = this.transactions.filter(t => {
+    const d = new Date(t.date);
+    return (
+      d.getMonth() === now.getMonth() &&
+      d.getFullYear() === now.getFullYear()
+    );
+  });
 
-    this.monthlySpent = currentMonthTransactions
-      .filter(t => t.amount < 0)
-      .reduce((sum: number, t: any) => sum + Math.abs(t.amount), 0);
+  this.monthlySpent = currentMonthTransactions
+    .filter(t => t.amount < 0)
+    .reduce((sum: number, t: any) => sum + Math.abs(t.amount), 0);
 
-    const monthlyIncome = currentMonthTransactions
-      .filter(t => t.amount > 0)
-      .reduce((sum: number, t: any) => sum + t.amount, 0);
+  const monthlyIncome = currentMonthTransactions
+    .filter(t => t.amount > 0)
+    .reduce((sum: number, t: any) => sum + t.amount, 0);
 
-    this.savingsPreview = monthlyIncome - this.monthlySpent;
+  this.savingsPreview = monthlyIncome - this.monthlySpent;
 
-    // recurring
-    const map: { [key: string]: any[] } = {};
+  // recurring logic
+  const map: { [key: string]: any[] } = {};
 
-    this.transactions.forEach(t => {
+  this.transactions.forEach(t => {
 
-      if (t.amount > 0) return;
+    if (t.amount > 0) return;
 
-      const key = t.description?.toLowerCase()?.trim();
-      if (!key) return;
+    const key = t.description?.toLowerCase()?.trim();
+    if (!key) return;
 
-      if (!map[key]) map[key] = [];
-      map[key].push(t);
-    });
+    if (!map[key]) map[key] = [];
+    map[key].push(t);
+  });
 
-    let recurring = 0;
+  let recurring = 0;
 
-    for (const key in map) {
+  for (const key in map) {
 
-      const list = map[key];
-      if (list.length < 2) continue;
+    const list = map[key];
+    if (list.length < 2) continue;
 
-      const amounts = list.map(t => Math.abs(t.amount));
-      const avg = amounts.reduce((a, b) => a + b, 0) / amounts.length;
+    const amounts = list.map(t => Math.abs(t.amount));
+    const avg = amounts.reduce((a, b) => a + b, 0) / amounts.length;
 
-      const consistent = amounts.every(a =>
-        Math.abs(a - avg) < avg * 0.05
-      );
+    const consistent = amounts.every(a =>
+      Math.abs(a - avg) < avg * 0.05
+    );
 
-      if (consistent) recurring += avg;
-    }
-
-    this.recurringTotal = Number(recurring.toFixed(2));
+    if (consistent) recurring += avg;
   }
 
-  getCurrentBalance(): number {
-    return this.totalIncome - this.totalSpent;
+  this.recurringTotal = Number(recurring.toFixed(2));
+}
+
+  // =========================
+  // 🔍 SEARCH
+  // =========================
+  onSearchChange() {
+
+    const term = this.searchTerm.toLowerCase().trim();
+
+    if (!term) {
+      this.filteredTransactions = [...this.transactions];
+    } else {
+      this.filteredTransactions = this.transactions.filter(t =>
+        t.description?.toLowerCase().includes(term) ||
+        t.location?.toLowerCase().includes(term) ||
+        t.category?.toLowerCase().includes(term)
+      );
+    }
+
+    this.processGrouping(); // 🔥 IMPORTANT
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.filteredTransactions = [...this.transactions];
+    this.processGrouping();
   }
 
   // =========================
@@ -197,6 +190,13 @@ onClickOutside(event: Event) {
     });
   }
 
+  getCurrentBalance(): number {
+    return this.totalIncome - this.totalSpent;
+  }
+
+  // =========================
+  // REST (UNCHANGED)
+  // =========================
   toggleQuickActions() {
     this.showQuickActions = !this.showQuickActions;
   }
@@ -216,8 +216,9 @@ onClickOutside(event: Event) {
 
     const dialogRef = this.dialog.open(AddTransactionDialogComponent, {
       width: '95%',
-  maxWidth: '420px',
-  panelClass: 'custom-dialog'
+      maxWidth: '420px',
+      panelClass: 'custom-dialog',
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
@@ -232,11 +233,6 @@ onClickOutside(event: Event) {
       }
     });
   }
-
-  clearSearch() {
-  this.searchTerm = '';
-  this.filteredTransactions = [...this.transactions];
-}
 
   triggerFileUpload() {
     this.fileInput.nativeElement.click();
