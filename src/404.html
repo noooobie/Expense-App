@@ -1,20 +1,19 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>ExpenseApp</title>
-  <base href="/Expense-App/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="apple-touch-icon" href="assets/icon.png">
-  <link rel="icon" href="assets/icon.png">
-</head>
-<body class="mat-typography">
-  <app-root></app-root>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+
+    <script>
+      // 👇 THIS IS THE FIX
+      const path = window.location.pathname;
+      const repo = "/Expense-App";
+
+      // Redirect to index.html with route preserved
+      window.location.replace(
+        repo + "/index.html#" + path.replace(repo, "")
+      );
+    </script>
+  </head>
+  <body></body>
 </html>
