@@ -238,6 +238,18 @@ export class DashboardComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
+  @HostListener('document:click', ['$event'])
+onClickOutside(event: Event) {
+  const target = event.target as HTMLElement;
+
+  if (
+  !target.closest('.top-action-btn') &&
+  !target.closest('.quick-actions')
+) {
+  this.showQuickActions = false;
+}
+}
+
   onFileChange(event: any) {
 
     const file = event.target.files[0];
@@ -271,18 +283,25 @@ export class DashboardComponent implements OnInit {
   }
 
   autoCategorize(desc: string): string {
+  if (!desc) return 'Other';
 
-    if (!desc) return 'Other';
+  const d = desc.toLowerCase();
 
-    const d = desc.toLowerCase();
+  // 🔥 BILLS (ADD THIS FIRST)
+  if (
+    d.includes('racv') ||
+    d.includes('aami') ||
+    d.includes('insurance') ||
+    d.includes('bill')
+  ) return 'Bills';
 
-    if (d.includes('woolworths') || d.includes('coles')) return 'Groceries';
-    if (d.includes('bp') || d.includes('uber')) return 'Transport';
-    if (d.includes('netflix')) return 'Entertainment';
-    if (d.includes('tpg')) return 'Utilities';
-    if (d.includes('salary')) return 'Income';
-    if (d.includes('amazon') || d.includes('kmart')) return 'Shopping';
+  if (d.includes('woolworths') || d.includes('coles')) return 'Groceries';
+  if (d.includes('bp') || d.includes('uber')) return 'Transport';
+  if (d.includes('netflix')) return 'Entertainment';
+  if (d.includes('tpg')) return 'Utilities';
+  if (d.includes('salary')) return 'Income';
+  if (d.includes('amazon') || d.includes('kmart')) return 'Shopping';
 
-    return 'Other';
-  }
+  return 'Other';
+}
 }
